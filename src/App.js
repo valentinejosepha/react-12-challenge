@@ -8,29 +8,37 @@ const Contact = () => <p>Feel free to contact us!</p>;
 const Error = () => <p>Something went <strong>wrong</strong>!</p>;
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       activeId: 'home'
     };
+   
+  handleChangeTab = (event) => {
+    const buttonId = event.target.id;
+    this.setState({ activeId: buttonId });
   }
 
-  getTabContent() {
+  getTabContent = (activeId) => {
     switch(this.state.activeId) {
       case 'home':
         return <Home />;
+      case 'about':
+        return <About />;
+      case 'contact':
+        return <Contact />;
       default:
         return <Error />;
     }
   }
 
   render() {
+    const { activeId } = this.state;
+    console.log('hello app', this.state)
     return (
       <div className="App">
-        <TabSelector />
+        <TabSelector active={this.state.activeId} getId={this.handleChangeTab}/>
         <div className="App-content">
           {
-            this.getTabContent()
+            this.getTabContent(activeId)
           }
         </div>
       </div>
